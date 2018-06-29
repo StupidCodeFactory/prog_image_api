@@ -37,7 +37,8 @@ jobs:
           paths:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-      - run: curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
+      - run: sudo apt-get update && sudo apt-get upgrade heroku
+
       # Database setup
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
