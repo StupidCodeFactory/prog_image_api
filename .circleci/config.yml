@@ -37,7 +37,7 @@ jobs:
           paths:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-
+      - run: curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
       # Database setup
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
@@ -63,4 +63,4 @@ jobs:
           destination: test-results
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run: docker build -t stupidcodefactory/prog_image_api:$CIRCLE_BRANCH .
-      - run: docker push stupidcodefactory/prog_image_api:$CIRCLE_BRANCH .
+      - run: docker push stupidcodefactory/prog_image_api:$CIRCLE_BRANCH
