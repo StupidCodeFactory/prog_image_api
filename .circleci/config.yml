@@ -37,8 +37,8 @@ jobs:
           paths:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-      - run: sudo apt-get update && sudo apt-get upgrade heroku
-
+      - run: curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
+      - run: heroku --version
       # Database setup
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
@@ -62,6 +62,8 @@ jobs:
       - store_artifacts:
           path: /tmp/test-results
           destination: test-results
+      - run: heroku container:login
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
-      - run: docker build -t stupidcodefactory/prog_image_api:$CIRCLE_BRANCH .
-      - run: docker push stupidcodefactory/prog_image_api:$CIRCLE_BRANCH
+      - run: docker build -t registry.heroku.com/stupidcodefactory/prog_image_api:$CIRCLE_BRANCH .
+      - run: docker push registry.heroku.com/stupidcodefactory/prog_image_api:$CIRCLE_BRANCH
+      - run: heroku container:release
