@@ -4,7 +4,8 @@
 #
 version: 2
 jobs:
-  test:
+  build:
+    machine: true
     docker:
       - image: circleci/ruby:2.5.1
         environment:
@@ -61,10 +62,7 @@ jobs:
       - store_artifacts:
           path: /tmp/test-results
           destination: test-results
-
-  build:
-    machine: true
-    steps:
       - run: |
           docker login -u $DOCKER_USER -p $DOCKER_PASS
-      - run: docker build -t company/app:$CIRCLE_BRANCH .
+      - run: docker build -t stupidcodefactory/prog_image_api:$CIRCLE_BRANCH .
+      - run: docker push stupidcodefactory/prog_image_api:$CIRCLE_BRANCH .
