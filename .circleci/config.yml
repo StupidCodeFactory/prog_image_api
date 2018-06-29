@@ -58,8 +58,8 @@ jobs:
       - store_artifacts:
           path: /tmp/test-results
           destination: test-results
-      - run: heroku container:login
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
-      - run: docker build -t registry.heroku.com/prog_image_api/prog_image_api:$CIRCLE_BRANCH .
-      - run: docker push registry.heroku.com/prog_image_api/prog_image_api:$CIRCLE_BRANCH
+      - run: docker build -t registry.heroku.com/prog-image-api/prog_image_api:$CIRCLE_BRANCH .
+      - run: heroku container:login
+      - run: docker push registry.heroku.com/prog-image-api/prog_image_api:$CIRCLE_BRANCH
       - run: heroku container:release
